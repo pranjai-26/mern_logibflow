@@ -5,10 +5,10 @@ const User = require('../models/User');
 
 router.post("/", (req, res) => {
     const user = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     User.findOne({"email" : user.email})
     .then(dbUser => {
-        console.log(dbUser);
+        // console.log(dbUser);
         if(!dbUser) {
             return res.json({
                 message: "User does not exist",

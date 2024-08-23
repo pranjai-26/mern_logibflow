@@ -17,12 +17,13 @@ router.post("/", (req, res) => {
         if(user.password === dbUser.password) {
             return res.json({
                 message: "Success",
+                user: user,
             });
         }
         else {
             // console.log(dbUser.email, dbUser.password);
             return res.json({
-                message: "Password incorrect",
+                message: "Incorrect Password",
             })
         }
     })

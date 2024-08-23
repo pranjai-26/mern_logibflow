@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useState } from 'react';
 
-function Login() {
+function Login({ setToken }) {
 
     const navigate = useNavigate();    
 
@@ -12,20 +12,32 @@ function Login() {
 
     const login = async (e) => {
         e.preventDefault();
+
         const user = {
             email: e.target[0].value,
             password: e.target[1].value
         }
+
         axios.post("http://localhost:5000/login", user)
         .then(res => {
             if(res.data.message == "Success") {
-                // alert("Logged In");
+                const token = res.data.user;
+                console.log(token);
+                setToken(token);
+                localStorage.setItem("loginflow_token", token);
                 navigate("/");
             }
             else {
                 // alert(res.data.message);
                 changeInvalid(res.data.message);
             }
+        })
+        .catch(err => {
+             console.log(err);
+             // alert("Something went wrong. Please try again later.");
+             changeInvalid("Something went wrong. Please try again later.");
+             e.target.reset();
+             setToken("");
         });
     }
 
@@ -34,13 +46,14 @@ function Login() {
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label" >
                     E-mail:
-                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="name@example.com"/>
+                    <input type="email" required name="email" class="form-control" id="exampleInputEmail1" placeholder="name@example.com"/>
                 </label>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">
                     Password:
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1"/>
+                    <input type="password" name="password" required minLength={8} class="form-control" id="exampleInputPassword1"/>
+                    <p>Min. 8 characters required</p>
                 </label>
             </div>
             <div class="mb-3">

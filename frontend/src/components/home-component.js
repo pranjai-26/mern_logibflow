@@ -7,9 +7,9 @@ function Home({ setToken}) {
         console.log('User logged out');
     };
     return (
-        <div>
+        <div className='text-center'>
             <h1>Home Page</h1>
-            <button onClick={logout}>Logout</button>
+            <button class="btn btn-primary" onClick={logout}>Logout</button>
         </div>
     );
 }
